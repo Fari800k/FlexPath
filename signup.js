@@ -1,43 +1,58 @@
-document.getElementById("signupForm").addEventListener("submit", function (e) {
-    e.preventDefault(); 
+document.getElementById('signupForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-    let fullName = document.getElementById("fullName").value.trim();
-    let email = document.getElementById("email").value.trim();
-    let confirmEmail = document.getElementById("confirmEmail").value.trim();
-    let password = document.getElementById("password").value;
-    let confirmPassword = document.getElementById("confirmPassword").value;
-    let gender = document.getElementById("gender").value;
-    let dob = document.getElementById("dob").value;
-    let errorMessage = document.getElementById("errorMessage");
+    // Clear any previous error messages
+    document.getElementById('errorMessage').classList.add('hidden');
 
-    // Validation
-    if (fullName === "" || email === "" || confirmEmail === "" || password === "" || confirmPassword === "" || gender === "" || dob === "") {
-        errorMessage.innerText = "All fields are required!";
-        errorMessage.classList.remove("hidden");
-        return;
-    }
+    // Get form field values
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    const confirmEmail = document.getElementById('confirmEmail').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const role = document.getElementById('role').value;
 
+    // Validation checks
     if (email !== confirmEmail) {
-        errorMessage.innerText = "Emails do not match!";
-        errorMessage.classList.remove("hidden");
+        document.getElementById('errorMessage').textContent = 'Emails do not match.';
+        document.getElementById('errorMessage').classList.remove('hidden');
         return;
     }
 
     if (password !== confirmPassword) {
-        errorMessage.innerText = "Passwords do not match!";
-        errorMessage.classList.remove("hidden");
+        document.getElementById('errorMessage').textContent = 'Passwords do not match.';
+        document.getElementById('errorMessage').classList.remove('hidden');
         return;
     }
 
-    if (password.length < 6) {
-        errorMessage.innerText = "Password must be at least 6 characters long!";
-        errorMessage.classList.remove("hidden");
-        return;
-    }
-
-    errorMessage.classList.add("hidden");
-
-    // Form Submission
-    alert("Sign-up successful!");
-    document.getElementById("signupForm").reset();
+    // Send form data to PHP
+    fetch('signup.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+            role: role
+        })
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data.includes('User registered successfully')) {
+            alert('Registration successful!');
+            // Redirect to login page or another page
+            window.location.href = '/login';  // Change the path as needed
+        } else {
+            document.getElementById('errorMessage').textContent = data;
+            document.getElementById('errorMessage').classList.remove('hidden');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 });
+

@@ -11,10 +11,16 @@
         <h2 class="text-2xl font-bold text-center text-gray-700">Sign Up</h2>
         <form id="signupForm" class="mt-4">
             
-            <!-- Full Name -->
+            <!-- First Name -->
             <div class="mb-3">
-                <label class="block text-gray-700">Full Name</label>
-                <input type="text" id="fullName" class="w-full p-2 border rounded-lg" required>
+                <label class="block text-gray-700">First Name</label>
+                <input type="text" id="firstName" class="w-full p-2 border rounded-lg" required>
+            </div>
+            
+            <!-- Last Name -->
+            <div class="mb-3">
+                <label class="block text-gray-700">Last Name</label>
+                <input type="text" id="lastName" class="w-full p-2 border rounded-lg" required>
             </div>
             
             <!-- Email -->
@@ -41,10 +47,26 @@
                 <input type="password" id="confirmPassword" class="w-full p-2 border rounded-lg" required>
             </div>
 
+            <!-- Role -->
+            <div class="mb-3">
+                <label class="block text-gray-700">Role</label>
+                <select id="role" class="w-full p-2 border rounded-lg" required>
+                    <option value="client">Client</option>
+                    <option value="trainer">Trainer</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+
             <!-- Submit Button -->
             <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600">Sign Up</button>
 
             <p id="errorMessage" class="mt-3 text-red-500 text-sm text-center hidden">Error message</p>
+
+             <!-- Login Link -->
+             <p class="mt-4 text-center text-gray-600">
+                Already have an account? 
+                <a href="login.html" class="text-blue-500 hover:underline">Login</a>
+            </p>
         </form>
     </div>
 
